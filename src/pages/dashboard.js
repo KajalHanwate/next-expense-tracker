@@ -7,6 +7,20 @@ import { useRouter } from 'next/navigation'
 import "@/app/globals.css"
 import Chart from "chart.js/auto";
 import ButtonNavigation from "@/components/buttonNavigation";
+import { BarGraph } from "@/components/BarGraph";
+import { PieGraph } from "@/components/PieGraph";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 const Dashboard = () => {
   const [month, setMonth] = useState("");
@@ -136,101 +150,179 @@ const Dashboard = () => {
      
      <ButtonNavigation title={"Expense Tracker Dashboard"} />
 
-      {/* Month Input & Load Button */}
-      <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-lg shadow-md w-full max-w-lg mx-auto mb-6">
-        <input
-          type="text"
-          placeholder="Enter Month (e.g., Feb)"
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={fetchData}
-          className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md shadow"
-        >
-          Load Data
-        </button>
-      </div>
+    
 
-      {/* Income & Expenses Table */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Income & Expenses</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-200">
-            <thead>
-              <tr className="bg-blue-400">
-                <th className="border border-gray-300 px-4 py-2">Month</th>
-                <th className="border border-gray-300 px-4 py-2">Income</th>
-                <th className="border border-gray-300 px-4 py-2">Remaining Income</th>
-                <th className="border border-gray-300 px-4 py-2">Total Expenses</th>
-              </tr>
-            </thead>
-            <tbody>
-              {incomeData && expenseData ? (
-                <tr className="text-center">
-                  <td className="border border-gray-300 px-4 py-2">{incomeData.month}</td>
-                  <td className="border border-gray-300 px-4 py-2">{incomeData.income}</td>
-                  <td className="border border-gray-300 px-4 py-2">{incomeData.remaining_income}</td>
-                  <td className="border border-gray-300 px-4 py-2">{expenseData.total_expenses}</td>
-                </tr>
-              ) : (
-                <tr>
-                  <td colSpan="4" className="border border-gray-300 px-4 py-2 text-center text-gray-500">
-                    No data available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+     
+  {/* Input & Button Section */}
+  <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-lg shadow-md w-full max-w-lg mx-auto mb-6">
+    <Input
+      type="text"
+      placeholder="Enter Month (e.g., Feb)"
+      value={month}
+      onChange={(e) => setMonth(e.target.value)}
+      className="w-full"
+    />
+    <Button
+      onClick={fetchData}
+      className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md shadow"
+    >
+      Load Data
+    </Button>
+  </div>
 
-      {/* Expense Details Table */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Expense Details</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-200">
-            <thead>
-              <tr className="bg-blue-400">
-                <th className="border border-gray-300 px-4 py-2">Title</th>
-                <th className="border border-gray-300 px-4 py-2">Amount</th>
-                <th className="border border-gray-300 px-4 py-2">Category</th>
-                <th className="border border-gray-300 px-4 py-2">Date</th>
+  {/* Income & Expenses Table */}
+  <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h2 className="text-xl font-semibold text-gray-700 mb-4">
+      Income & Expenses
+    </h2>
+    <div className="overflow-x-auto">
+      {/* <table className="w-full border-collapse border border-gray-200">
+        <thead>
+          <tr className="bg-blue-400">
+            <th className="border border-gray-300 px-4 py-2">Month</th>
+            <th className="border border-gray-300 px-4 py-2">Income</th>
+            <th className="border border-gray-300 px-4 py-2">Remaining Income</th>
+            <th className="border border-gray-300 px-4 py-2">Total Expenses</th>
+          </tr>
+        </thead>
+        <tbody>
+          {incomeData && expenseData ? (
+            <tr className="text-center">
+              <td className="border border-gray-300 px-4 py-2">{incomeData.month}</td>
+              <td className="border border-gray-300 px-4 py-2">{incomeData.income}</td>
+              <td className="border border-gray-300 px-4 py-2">{incomeData.remaining_income}</td>
+              <td className="border border-gray-300 px-4 py-2">{expenseData.total_expenses}</td>
+            </tr>
+          ) : (
+            <tr>
+              <td
+                colSpan="4"
+                className="border border-gray-300 px-4 py-2 text-center text-gray-500"
+              >
+                No data available
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table> */}
+      <Table>
+  {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+  <TableHeader>
+    <TableRow className={"bg-blue-400"}>
+      <TableHead className="text-center">Month</TableHead>
+      <TableHead className="text-center">Income</TableHead>
+      <TableHead className="text-center">Remaining Income</TableHead>
+      <TableHead className="text-center">Total Expenses</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+
+  {incomeData && expenseData ? (
+
+    <TableRow>
+      <TableCell className="text-center">{incomeData.month}</TableCell>
+      <TableCell className="text-center">{incomeData.income}</TableCell>
+      <TableCell className="text-center">{incomeData.remaining_income}</TableCell>
+      <TableCell className="text-center">{expenseData.total_expenses}</TableCell>
+    </TableRow>
+
+     ) : (
+      <TableRow>
+      <TableCell> No data available</TableCell>
+      </TableRow>
+    )}
+  </TableBody>
+</Table>
+
+    </div>
+  </div>
+
+  {/* Expense Details Table */}
+  <div className="bg-white p-6 rounded-lg shadow-md">
+    <h2 className="text-xl font-semibold text-gray-700 mb-4">
+      Expense Details
+    </h2>
+    <div className="overflow-x-auto">
+      {/* <table className="w-full border-collapse border border-gray-200">
+        <thead>
+          <tr className="bg-blue-400">
+            <th className="border border-gray-300 px-4 py-2">Title</th>
+            <th className="border border-gray-300 px-4 py-2">Amount</th>
+            <th className="border border-gray-300 px-4 py-2">Category</th>
+            <th className="border border-gray-300 px-4 py-2">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {expenseData ? (
+            expenseData.expenses.map((expense, index) => (
+              <tr key={index} className="text-center">
+                <td className="border border-gray-300 px-4 py-2">{expense.title}</td>
+                <td className="border border-gray-300 px-4 py-2">{expense.amount}</td>
+                <td className="border border-gray-300 px-4 py-2">{expense.category}</td>
+                <td className="border border-gray-300 px-4 py-2">{formatDate(expense.date)}</td>
               </tr>
-            </thead>
-            <tbody>
-              {expenseData ? (
-                expenseData.expenses.map((expense, index) => (
-                  <tr key={index} className="text-center">
-                    <td className="border border-gray-300 px-4 py-2">{expense.title}</td>
-                    <td className="border border-gray-300 px-4 py-2">{expense.amount}</td>
-                    <td className="border border-gray-300 px-4 py-2">{expense.category}</td>
-                    <td className="border border-gray-300 px-4 py-2">{formatDate(expense.date)}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" className="border border-gray-300 px-4 py-2 text-center text-gray-500">
-                    No expenses available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan="4"
+                className="border border-gray-300 px-4 py-2 text-center text-gray-500"
+              >
+                No expenses available
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table> */}
+      <Table>
+  {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+  <TableHeader>
+  <TableRow className={"bg-blue-400"}>
+          <TableHead className="text-center">Title</TableHead>
+      <TableHead className="text-center">Amount</TableHead>
+      <TableHead className="text-center">Category</TableHead>
+      <TableHead className="text-center">Date</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+
+  {expenseData ? (
+            expenseData.expenses.map((expense, index) => (
+
+    <TableRow  key={index}>
+      <TableCell className="text-center">{expense.title}</TableCell>
+      <TableCell className="text-center">{expense.amount}</TableCell>
+      <TableCell className="text-center">{expense.category}</TableCell>
+      <TableCell className="text-center">{formatDate(expense.date)}</TableCell>
+    </TableRow>
+   ))
+     ) : (
+      <TableRow>
+      <TableCell> No data available</TableCell>
+      </TableRow>
+    )}
+  </TableBody>
+</Table>
+    </div>
+  </div>
+
 
       {/* Charts Section */}
       <h2 className="text-xl font-semibold text-gray-700 text-center mt-8 mb-4">Charts</h2>
-      <div className="flex flex-wrap justify-center gap-6">
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <canvas ref={incomeExpenseChartRef} id="incomeExpenseChart" />
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <canvas ref={categoryChartRef} id="categoryChart" width="300" height="300" />
-        </div>
-      </div>
+      <div className="flex flex-col md:flex-row flex-wrap justify-center gap-6">
+  {expenseData?.month && incomeData?.income && (
+    <div className="w-full md:w-[35%] lg:w-[25%] md:mr-4">
+      <PieGraph data={[{ month: expenseData?.month, income: incomeData?.income, expense: expenseData?.total_expenses }]} />
+    </div>
+  )}
+  {expenseData && (
+
+  <div className="w-full md:w-[35%] lg:w-[25%]">
+    <BarGraph data={expenseData} />
+  </div>
+  )}
+</div>
+
     </div>
   );
 };

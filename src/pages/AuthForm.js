@@ -2,7 +2,9 @@
 
 import React, { useState } from "react";
 import { redirect } from 'next/navigation'
-
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 function AuthForm() {
   // State Management
@@ -63,6 +65,36 @@ function AuthForm() {
     }
   };
 
+  <Card>
+  <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">Login</h2>
+
+  <form onSubmit={handleLogin} className="space-y-4">
+    <Input
+      type="text"
+      name="email"
+      placeholder="Email"
+      onChange={handleChange}
+      required
+    />
+    <Input
+      type="password"
+      name="password"
+      placeholder="Password"
+      onChange={handleChange}
+      required
+    />
+    <p
+      className="text-sm text-blue-500 cursor-pointer hover:underline"
+      onClick={() => showForm("forgot1")}
+    >
+      Forgot password?
+    </p>
+
+    <Button className="bg-blue-500 text-white hover:bg-blue-600">Login</Button>
+    <p className="text-green-500 text-sm text-center">{message}</p>
+  </form>
+</Card>
+
   // Signup Handler
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -76,6 +108,36 @@ function AuthForm() {
       setMessage(data?.error || "Signup failed!");
     }
   };
+
+  <Card>
+  <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">Signup</h2>
+  <form onSubmit={handleSignup} className="space-y-4">
+    <Input
+      type="text"
+      name="email"
+      placeholder="Email"
+      onChange={handleChange}
+      required
+    />
+    <Input
+      type="text"
+      name="username"
+      placeholder="Username"
+      onChange={handleChange}
+      required
+    />
+    <Input
+      type="password"
+      name="password"
+      placeholder="Password"
+      onChange={handleChange}
+      required
+    />
+    <Button className="bg-green-500 text-white hover:bg-green-600">Signup</Button>
+    <p className="text-green-500 text-sm text-center">{message}</p>
+  </form>
+</Card>
+
 
   // Generate OTP
   const handleGenerateOTP = async (e) => {
@@ -91,6 +153,24 @@ function AuthForm() {
       setMessage(data?.error || "Failed to generate OTP!");
     }
   };
+
+  {activeForm === "forgot1" && (
+    <Card>
+      <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">Forgot Password</h2>
+      <form onSubmit={handleGenerateOTP} className="space-y-4">
+        <Input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
+        <Button className="bg-yellow-500 text-white hover:bg-yellow-600">Generate OTP</Button>
+        <p className="text-green-500 text-sm text-center">{message}</p>
+      </form>
+    </Card>
+  )}
+  
 
   // Reset Password
   const handleResetPassword = async (e) => {
@@ -111,6 +191,45 @@ function AuthForm() {
       setMessage(data?.error || "Failed to reset password!");
     }
   };
+
+  {activeForm === "forgot2" && (
+    <Card>
+      <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">Reset Password</h2>
+      <form onSubmit={handleResetPassword} className="space-y-4">
+        <Input
+          type="text"
+          name="otp"
+          placeholder="Enter OTP"
+          onChange={handleChange}
+          required
+        />
+        <Input
+          type="email"
+          name="email"
+          value={formData.email}
+          readOnly
+          className="bg-gray-100"
+        />
+        <Input
+          type="password"
+          name="newPassword"
+          placeholder="New Password"
+          onChange={handleChange}
+          required
+        />
+        <Input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          onChange={handleChange}
+          required
+        />
+        <Button className="bg-red-500 text-white hover:bg-red-600">Reset Password</Button>
+        <p className="text-green-500 text-sm text-center">{message}</p>
+      </form>
+    </Card>
+  )}
+  
 
   return (
     <div className="max-w-4xl mx-auto mt-100">
